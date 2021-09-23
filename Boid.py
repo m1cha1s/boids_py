@@ -1,13 +1,15 @@
+from numba.core.types.misc import Object
 import numpy as np
 import pygame
 
 class Boid:
-    def __init__(self, pos:np.ndarray, vel:np.ndarray, ffactor:float = 0.1) -> None:
+    def __init__(self, pos:np.ndarray, vel:np.ndarray, ffactor:float = 0.1, maxV:float = 0.05) -> None:
         self.pos = pos
         self.vel = vel
         self.acc = np.zeros((2,1), float)
 
         self.ffactor = ffactor
+        self.maxV = maxV
 
     def getPos(self) -> np.ndarray:
         return self.pos
@@ -18,6 +20,7 @@ class Boid:
     def update(self):
         self.acc = np.multiply(self.acc, self.ffactor)
         self.vel = np.add(self.vel, self.acc)
+        self.vel = np.clip(self.vel, -self.maxV, self.maxV)
         self.pos = np.add(self.pos, self.vel)
         self.acc = np.multiply(self.acc, 0)
 

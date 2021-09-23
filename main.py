@@ -1,4 +1,5 @@
 from Boid import Boid
+from BoidsHandler import BoidsHandler
 import numpy as np
 import pygame
 
@@ -8,7 +9,7 @@ screen = pygame.display.set_mode([500,500])
 
 running = True
 
-boids = Boid(np.array([[250], [250]], float), np.array([[0.01], [0.01]], float))
+boids = BoidsHandler(10, screen)
 
 def eventChecker():
     
@@ -18,19 +19,12 @@ def eventChecker():
         if event.type == pygame.QUIT:
             running = False
 
-def update():
-    boids.update()
-
-def draw():
-    screen.fill(0)
-    boids.draw(screen)
-
 def main():
 
     while(running):
         eventChecker()
-        update()
-        draw()
+        screen.fill(0)
+        boids.handleBoids()
         pygame.display.flip()
 
     pygame.quit()
